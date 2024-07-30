@@ -85,7 +85,7 @@ while True:
                     command_states["land"] = False
                     command_executed["arm"] = True
             elif all(o == "Back Facing Camera" for o in orientations):
-                if command_states["land"] and not command_states["disarm"] and not command_executed["disarm"]:
+                if not command_states["disarm"] and not command_executed["disarm"]:
                     current_command = "disarm"
                     drone.disarm()
                     command_states["disarm"] = True
@@ -93,8 +93,6 @@ while True:
                     command_states["take off"] = False
                     command_states["land"] = False
                     command_executed["disarm"] = True
-                elif not command_states["land"]:
-                    current_command = None
         elif num_hands == 1:
             right_hand = next((hand for hand in hands if hand['type'] == 'Right'), None)
             left_hand = next((hand for hand in hands if hand['type'] == 'Left'), None)
@@ -112,8 +110,6 @@ while True:
                         command_executed["take off"] = True
                     elif not command_states["arm"]:
                         current_command = None
-                else:
-                    command_states["take off"] = False
             elif left_hand:
                 orientation = get_hand_orientation(left_hand['lmList'], 'Left')
                 if orientation == "Back Facing Camera":
